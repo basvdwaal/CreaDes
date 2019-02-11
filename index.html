@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clock</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+    <div class="row">
+        <div class="col-8">
+            <table id="locationtable">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr id="locations">
+                        <td id="School">School</td>
+                        <td id="Thuis">Thuis</td>
+                        <td id="Werk">Werk</td>
+                        <td id="Tandarts">Tandarts</td>
+                        <td id="Ziekenhuis">Ziekenhuis</td>
+                        <td id="Locatie 6">Locatie 6</td>
+                        <td id="Locatie 7">Locatie 7</td>
+                        <td id="Locatie 8">Locatie 8</td>
+                        <td id="Locatie 9">Locatie 9</td>
+                        <td id="Locatie 10">Locatie 10</td>
+                    </tr>
+                    <tr id="user1">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="user2">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="user3">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="user4">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="user5">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4">
+            <table id="positiontable">
+                <tr id="names">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr id="position">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </div>
+    <script src="Dummydata.js"></script>
+    <script>
+        // var locationtable = document.getElementById("locationtable");
+        // var positiontable = document.getElementById("positiontable");
+        
+        // Create an array locations, in which all used locations are stored.
+        var locationlist = [];
+        $(function() {
+            for (var key in data) {
+                var loc = data[key];
+                if (!(locationlist.includes(loc["location"]))) {
+                    locationlist.push(loc["location"]);
+                };
+            };
+            displayLocations(locationlist);
+            displayUsers(data);
+            displayArea(data);
+        });        
+        
+        // Remove all the locations that are not being used from view.
+        function displayLocations(locationlist) {
+            $('#locations').each(function(){
+                $(this).find('td').each(function(){
+                    id = $(this).attr('id');
+                    if (locationlist.includes(id)) {
+                    } else {
+                        $(this).attr('style', 'display:none');
+                    };
+                })
+            })
+        };
+
+        //Show the icons of the user in the corresponding row. Also remove the rest of the columns if there are less than 5 users.
+        function displayUsers(data) {
+            for (key in data) {
+                var line = data[key];
+                var loc = line['location'];
+                var icon = line['icon'];
+                var user = line['user'];
+
+                var s = Array.from(document.querySelectorAll("#locations td")).map((s,i) => { return { index:i, value: s, display: s.style.display, id: s.id}}).filter(s=>{ return (s.display != "none" && s.id == loc)})
+                var rowIndex = s[0]['index'];
+                
+                var tr = document.getElementById(user)
+                var td = tr['children'][rowIndex];
+                td.innerHTML = td.innerHTML + icon;
+            }
+        }
+
+        function displayArea(data) {
+            for (var i = 0; i < 5; i++) {   
+                document.getElementById("names").children[i].innerHTML = Object.values(data)[i]['user'];
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

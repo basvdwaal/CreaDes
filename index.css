@@ -1,0 +1,12 @@
+table{
+    margin-top: 5%;
+}
+
+table td {
+    border: 5px outset black;
+    height: 100px;
+    width: 100px;
+}
+
+tr { display: block; float: left; }
+th, td { display: block; }
