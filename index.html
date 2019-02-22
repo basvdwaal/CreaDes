@@ -31,34 +31,29 @@
                         <td id="Locatie 10">Locatie 10</td>
                     </tr>
                     <tr id="user1">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <tr id="user2">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <tr id="user3">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <tr id="user4">
+                    </tr>
+                    <tr id="user5">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4">
+            <table id="positiontable">
+                <tbody>
+                    <tr id="names">
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr id="user5">
+                    <tr id="position">
                         <td></td>
                         <td></td>
                         <td></td>
@@ -68,28 +63,19 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-4">
-            <table id="positiontable">
-                <tr id="names">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr id="position">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
     </div>
     </div>
     <script src="Dummydata.js"></script>
     <script>        
+        $('#locationtable tbody').each(function(){
+            $(this).find('tr').each(function(){
+                while ($(this).children("td").length < 10) {
+                    td = document.createElement("td");
+                    $(this).append(td);
+                };
+            })
+        });
+        
         // Create an array locations, in which all used locations are stored.
         var locationlist = [];
         $(function() {
@@ -124,30 +110,39 @@
                 var loc = line['location'];
                 var icon = line['icon'];
                 var user = line['user'];
+                console.log(user)
 
                 var s = Array.from(document.querySelectorAll("#locations td"))
                     .map((s,i) => { return { index:i, value: s, display: s.style.display, id: s.id}})
                     .filter(s=>{ return (s.display != "none" && s.id == loc)});
-                var rowIndex = s[0]['index'];   
+                var rowIndex = s[0]['index'];
                
                 var tr = document.getElementById(user);
                 var td = tr['children'][rowIndex];
                 td.innerHTML = td.innerHTML + icon;
                 
-                Array.from(document.querySelectorAll("#" + data[key]['user'] + " td"))
-                        .map((s,i) => {return { index:i, value: s}})
-                        .filter(s => {return s.index >= (Object.keys(data).length - 1)})
-                        .map(s => {s.value.style.display = "none"});
             };
 
-        };
+            // Remove all unused rows from view
+            Array.from(document.querySelectorAll("#locations td"))
+                .map((s,i) => {return {index: i, value: s, display: s.style.display, id: s.id}})
+                .filter((s) => {return (s.display == "none")})
+                .map((s) => {
+                    o = s;
+                    Array.from(document.querySelectorAll("#locationtable tr"))
+                        .map((s,i) => {return {index: i, value: s}})
+                        .map(s => {s.value.cells[o.index].style.display = "none"})
+                });
+         };  
 
         // Display the names of the users in the second table.
         function displayArea(data) {
             for (var i = 0; i < Object.keys(data).length; i++) {
                 document.getElementById("names").children[i].innerHTML = Object.values(data)[i]['user'];
+                document.getElementById("position").children[i].innerHTML = Object.values(data)[i]['direction'];
             }
         }
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
