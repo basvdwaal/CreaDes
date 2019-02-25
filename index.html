@@ -13,7 +13,7 @@
 <body>
     <div class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-10">
             <table id="locationtable">
                 <thead>
                 </thead>
@@ -40,12 +40,7 @@
                     </tr>
                     <tr id="user5">
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-4">
-            <table id="positiontable">
-                <tbody>
+                    <tr id="spacer"></tr>
                     <tr id="names">
                         <td></td>
                         <td></td>
@@ -66,12 +61,14 @@
     </div>
     </div>
     <script src="Dummydata.js"></script>
-    <script>        
+    <script>
         $('#locationtable tbody').each(function(){
             $(this).find('tr').each(function(){
-                while ($(this).children("td").length < 10) {
-                    td = document.createElement("td");
-                    $(this).append(td);
+                if ($(this).attr('id') != "names" && $(this).attr("id") != "position") {
+                    while ($(this).children("td").length < 10) {
+                        td = document.createElement("td");
+                        $(this).append(td);
+                    }
                 };
             })
         });
@@ -129,9 +126,11 @@
                 .filter((s) => {return (s.display == "none")})
                 .map((s) => {
                     o = s;
-                    Array.from(document.querySelectorAll("#locationtable tr"))
-                        .map((s,i) => {return {index: i, value: s}})
-                        .map(s => {s.value.cells[o.index].style.display = "none"})
+                    for (var count = 0; count < 6; count++) {
+                        Array.from(document.querySelectorAll("#user" + count))
+                            .map((s,i) => {return {index: i, value: s}})
+                            .map(s => {s.value.cells[o.index].style.display = "none"})
+                    }
                 });
          };  
 

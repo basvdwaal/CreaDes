@@ -11,5 +11,8 @@ table td {
     width: 50%; */
 }
 
+#spacer td{
+    border: none;
+}
 tr { display: block; float: left; }
 th, td { display: block; }
